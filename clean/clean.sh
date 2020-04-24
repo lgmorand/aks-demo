@@ -1,0 +1,1 @@
+rm -f get_helm.sh #created when installing helm
