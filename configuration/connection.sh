@@ -1,6 +1,6 @@
 echo 'Trying to connect to cluster'
 
-az aks get-credentials -n $aksname -g $resourcegroup
+az aks get-credentials -n $aksName -g $resourceGroup
 
 connectionStatus=$(kubectl version)
 

@@ -1,5 +1,0 @@
-spnPassword="$(az ad sp create-for-rbac --name $aksspn --skip-assignment --query password -o tsv)"
-spnAppId="$(az ad sp show --id $aksspn --query appId -o tsv)"
-echo -e "Service Principal created is : \e[96m" $aksspn  "\e[0m"
-echo -e "AppId : \e[96m" $spnAppId  "\e[0m"
-echo -e "Password: \e[96m" $spnPassword  "\e[0m"

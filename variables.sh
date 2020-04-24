@@ -4,17 +4,25 @@ echo -e "subscription ID is : \e[96m" $subscriptionid  "\e[0m"
 location=westeurope 
 echo -e "location is : \e[96m" $location  "\e[0m"
 
-resourcegroup=rg-aks-test
-echo -e "Name of the resource group is: \e[96m" $resourcegroup "\e[0m"
+resourceGroup=rg-aks-test
+echo -e "Name of the resource group is: \e[96m" $resourceGroup "\e[0m"
 
-resourcegroupnodes=rg-aks-test-nodes
-echo -e "Name of the resource group is: \e[96m" $resourcegroupnodes "\e[0m"
+resourceGroupNodes=rg-aks-test-nodes
+echo -e "Name of the resource group is: \e[96m" $resourceGroupNodes "\e[0m"
 
-acrname=acrakstestlg
-echo -e "Name of ACR is: \e[96m" $acrname "\e[0m"
+acrName=acrakstestlg
+echo -e "Name of ACR is: \e[96m" $acrName "\e[0m"
 
-aksname=aks-test
-echo -e "Name of AKS is: \e[96m" $aksname "\e[0m"
+aksName=aks-test
+echo -e "Name of AKS is: \e[96m" $aksName "\e[0m"
 
-aksspn=http://aks-test-spn
-echo -e "Name of AKS SPN is: \e[96m" $aksspn "\e[0m"
+aksSpn=http://aks-test-spn
+echo -e "Name of AKS SPN is: \e[96m" $aksSpn "\e[0m"
+
+
+####################
+# Applications
+####################
+
+appEventSbName=sb-event-app
+echo -e "Name of service bus for event-app is: \e[96m" $appEventSbName "\e[0m"

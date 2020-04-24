@@ -12,4 +12,4 @@ kubectl create namespace keda
 # Install KEDA in that namespace with Helm 3 
 helm install keda kedacore/keda --namespace keda
 
-echo -e "\e[96mKured installed: " $aksname  "\e[0m"
+echo -e "\e[96mKEDA installed\e[0m"

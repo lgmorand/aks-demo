@@ -14,4 +14,4 @@ helm install nginx-ingress stable/nginx-ingress \
     --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
 
 
-echo -e "\e[96mNGINX ingress controller installed: " $aksname  "\e[0m"
+echo -e "\e[96mNGINX ingress controller installed\e[0m"

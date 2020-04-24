@@ -14,24 +14,26 @@ echo '      - KURed'
 . ./init/prep-tools.sh
 
 echo ' '
-echo  -e '\e[32mDefining variables\e[0m'
+echo  -e '\e[93mDefining variables\e[0m'
 . variables.sh
 
 echo ' '
-echo -e '\e[32mCreating resources\e[0m'
+echo -e '\e[93mCreating resources\e[0m'
 . ./creation/create-rg.sh
-. ./creation/create-spn.sh
 . ./creation/create-acr.sh
 . ./creation/create-aks.sh
 
 echo ' '
-echo -e '\e[32mConfiguring tools for cluster\e[0m'
+echo -e '\e[93mConfiguring tools for cluster\e[0m'
 . ./configuration/connection.sh
 . ./configuration/kured.sh
 . ./configuration/keda.sh
 . ./configuration/ingress-controller.sh
 
+echo ' '
+echo -e '\e[93mInstalling applications\e[0m'
+. ./app/install-apps.sh
 
 echo ''
-echo  -e '\e[32mCleaning\e[0m'
+echo  -e '\e[93mCleaning\e[0m'
 . ./clean/clean.sh
