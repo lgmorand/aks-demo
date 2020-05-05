@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: netpol
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end-svc
+  namespace: netpol
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: back-end
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end
+  namespace: netpol
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: back-end
+  template:
+    metadata:
+      labels:
+        app: back-end
+    spec:
+      containers:
+      - name: back-end
+        image: paulbouwer/hello-kubernetes:1.8
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end-svc
+  namespace: netpol
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: front-end
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  namespace: netpol
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front-end
+  template:
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+      - name: front-end
+        image: lgmorand/netpoldemo
+        ports:
+        - containerPort: 80
+        env:
+        - name: ENDPOINT
+          value: "http://back-end-svc"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+  namespace: netpol
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: back-end-allow-from-front
+  namespace: netpol
+spec:
+  podSelector:
+    matchLabels:
+      app: back-end
+  ingress:
+    - from:
+      - podSelector:          
+          matchLabels:
+            app: front-end

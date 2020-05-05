@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-to-monitor
+  namespace: monitor
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app-to-monitor
+  template:
+    metadata:
+      labels:
+        app: my-app-to-monitor
+    spec:
+      containers:
+      - name: my-app-to-monitor
+        image: fabxc/instrumented_app
+        ports:
+        - name: web
+          containerPort: 8080

@@ -1,21 +1,3 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: hello-world
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-world-svc
-  namespace: hello-world
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 8080
-  selector:
-    app: hello-kubernetes
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:

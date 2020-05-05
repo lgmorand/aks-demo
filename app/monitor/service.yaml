@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-app-to-monitor-svc
+  labels:
+    app: my-app-to-monitor
+spec:
+  selector:
+    app: my-app-to-monitor
+  ports:
+  - name: web
+    port: 8080

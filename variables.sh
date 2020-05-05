@@ -19,6 +19,9 @@ echo -e "Name of AKS is: \e[96m" $aksName "\e[0m"
 aksSpn=http://aks-test-spn
 echo -e "Name of AKS SPN is: \e[96m" $aksSpn "\e[0m"
 
+aksLogWorkspace=aks-log-wks
+echo -e "Name of AKS Log Workspace is: \e[96m" $aksLogWorkspace "\e[0m"
+
 
 ####################
 # Applications

@@ -12,11 +12,7 @@ read answerCreateCluster
 if [[ "$answerCreateCluster" == "y" ]]
 then 
 
-  spnPassword="$(az ad sp create-for-rbac --name $aksSpn --skip-assignment --query password -o tsv)"
-  spnAppId="$(az ad sp show --id $aksSpn --query appId -o tsv)"
-  echo -e "Service Principal created is : \e[96m" $aksSpn  "\e[0m"
-  echo -e "AppId : \e[96m" $spnAppId  "\e[0m"
-  echo -e "Password: \e[96m" $spnPassword  "\e[0m"
+ . ./creation/create-spn.sh
 
   echo 'AKS cluster creation...'
   az aks create \
@@ -28,15 +24,17 @@ then
     --enable-cluster-autoscaler \
     --cluster-autoscaler-profile scan-interval=15s \
     --min-count 1 \
-    --max-count 3 
+    --max-count 3 \
     --service-principal $spnAppId \
-    --client-secret $spnPassword 
+    --client-secret $spnPassword \
+    --network-policy calico \
+    --network-plugin kubenet
     #--node-resource-group $resourcegroupnodes
     #--enable-addons monitoring \ bug d'une extension https://github.com/Azure/azure-cli/issues/13121
 
   echo -e "\e[92mCluster created: " $aksName  "\e[0m"
 
-  echo 'Addning another nodepool'
+  echo 'Adding another nodepool'
   az aks nodepool add \
     --resource-group $resourceGroup \
     --cluster-name $aksName \
@@ -47,8 +45,12 @@ then
 
   
   echo 'Enabling monitoring'
-  az aks enable-addons -a monitoring -g $resourceGroup -n $aksName
+  az monitor log-analytics workspace create -g $resourceGroup -n $aksLogWorkspace -l $location
+  wksResourceId="$(az monitor log-analytics workspace show --resource-group $resourceGroup --workspace-name $aksLogWorkspace --query id -o tsv)"
+  az aks enable-addons -a monitoring -g $resourceGroup -n $aksName --workspace-resource-id $wksResourceId
 
   echo 'Attaching ACR to the cluster...'
   az aks update -n $aksName -g $resourceGroup --attach-acr $acrName
+
+  echo 'Cluster fully configured'
 fi
