@@ -1,5 +1,7 @@
 echo 'Kured installation'
 
+kubectl delete ns kured --ignore-not-found
+
 # Add the stable Helm repository
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 
@@ -10,6 +12,6 @@ helm repo update
 kubectl create namespace kured
 
 # Install kured in that namespace with Helm 3 (only on Linux nodes, kured is not working on Windows nodes)
-helm install kured stable/kured --namespace kured --set nodeSelector."beta\.kubernetes\.io/os"=linux,reboot-days=sa,su
+helm install kured stable/kured --namespace kured --set nodeSelector."beta\.kubernetes\.io/os"=linux,extraArgs.reboot-days="Mon\,Tue"
 
 echo -e "\e[96mKured installed\e[0m"

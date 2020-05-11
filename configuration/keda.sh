@@ -1,5 +1,7 @@
 echo 'KEDA installation'
 
+kubectl delete ns keda --ignore-not-found
+
 # Add the stable Helm repository
 helm repo add kedacore https://kedacore.github.io/charts
 

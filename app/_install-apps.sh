@@ -9,8 +9,8 @@ echo -e '\e[96mHello world app installed\e[0m'
 echo 'Installing netpol application'
 kubectl delete ns netpol --ignore-not-found
 kubectl apply -f ./app/netpol
-echo '\e[91mDelete netpol back-end-allow-from-front to break the website\e[0m'
-echo '\e[96mnetpol app installed\e[0m'
+echo -e '\e[91mDelete netpol back-end-allow-from-front to break the website\e[0m'
+echo -e '\e[96mnetpol app installed\e[0m'
 
 echo 'Installing monitored application'
 kubectl delete ns monitor --ignore-not-found
@@ -21,14 +21,14 @@ echo 'Installing keyvault application'
 az keyvault secret set --vault-name $kvName --name "my-secret" --value "I'm a secret from keyvault"
 kubectl delete ns keyvault --ignore-not-found
 cp ./app/keyvault/keyvault-source.yaml ./app/keyvault/keyvault.yaml # create a copy to replace variables in
-cp ./app/configuration/aadpodidentitybinding-source.yaml ./app/configuration/aadpodidentitybinding.yaml # create a copy to replace variables in
+cp ./app/keyvault/aadpodidentitybinding-source.yaml ./app/keyvault/aadpodidentitybinding.yaml # create a copy to replace variables in
 sed -i "s/RESOURCE_GROUP_TOKEN/$resourceGroup/g" ./app/keyvault/keyvault.yaml
 sed -i "s/SUBSCRIPTION_ID_TOKEN/$subscriptionId/g" ./app/keyvault/keyvault.yaml
 sed -i "s/TENANT_ID_TOKEN/$tenantId/g" ./app/keyvault/keyvault.yaml
 sed -i "s/KEYVAULT_NAME_TOKEN/$knName/g" ./app/keyvault/keyvault.yaml
-sed -i "s/IDENTITY_NAME_TOKEN/$identityName/g" ./app/configuration/aadpodidentitybinding.yaml
+sed -i "s/IDENTITY_NAME_TOKEN/$identityName/g" ./app/keyvault/aadpodidentitybinding.yaml
 
-kubectl apply -f ./app/configuration/aadpodidentitybinding.yaml
+kubectl apply -f ./app/keyvault/aadpodidentitybinding.yaml
 kubectl apply -f ./app/keyvault/keyvault.yaml
 echo -e '\e[96mKeyVault app installed\e[0m'
 

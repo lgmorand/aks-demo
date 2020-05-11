@@ -1,5 +1,7 @@
 echo 'NGINX ingress controller installation'
 
+kubectl delete ns ingress-basic --ignore-not-found
+
 # Create a namespace for your ingress resources
 kubectl create namespace ingress-basic
 

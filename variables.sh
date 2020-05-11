@@ -32,7 +32,7 @@ echo -e "Name of AKS Log Workspace is: \e[96m" $aksLogWorkspace "\e[0m"
 # Resources
 ####################
 
-kvName=kv-aks-test
+kvName=kv-aks-test-lg
 echo -e "Name of KeyVault is: \e[96m" $kvName "\e[0m"
 
 identityName=identity-aks-test-lg

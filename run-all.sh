@@ -10,6 +10,12 @@ echo '      - autoscaling'
 echo '      - KEDA'
 echo '      - CSI driver for keyvault'
 echo '      - KURed'
+echo ' - several additional Demo applications:'
+echo '   - showing keda'
+echo '   - keyvault with CSI driver'
+echo '   - network policy'
+echo '   - prometheus monitorin'
+
 
 . ./init/prep-tools.sh
 
@@ -25,11 +31,11 @@ echo -e '\e[93mCreating resources\e[0m'
 
 echo ' '
 echo -e '\e[93mConfiguring tools for cluster\e[0m'
-. ./configuration/install-configuration.sh
+. ./configuration/_install-configuration.sh
 
 echo ' '
 echo -e '\e[93mInstalling applications\e[0m'
-. ./app/install-apps.sh
+. ./app/_install-apps.sh
 
 echo ' '
 . ./monitoring/monitoring.sh

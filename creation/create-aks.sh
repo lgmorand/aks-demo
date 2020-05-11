@@ -29,7 +29,8 @@ then
     --client-secret $spnPassword \
     --network-policy calico \
     --network-plugin kubenet \
-    --node-resource-group $resourcegroupnodes \
+    --node-resource-group $resourceGroupNodes \
+    --kubernetes-version 1.16.7 \
     --tags $tags
 
   echo -e "\e[92mCluster created: " $aksName  "\e[0m"
@@ -42,7 +43,7 @@ then
     --node-count 1 \
     --mode user \
     --node-vm-size Standard_DS2_v2 \
-    --tags $tags
+    --tags $tags 
 
   
   echo 'Enabling monitoring'
