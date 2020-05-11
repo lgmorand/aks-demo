@@ -8,7 +8,7 @@ echo ' - An AKS cluster with'
 echo '      - AAD V2 integration'
 echo '      - autoscaling'
 echo '      - KEDA'
-echo '      - flexvolume for keyvault'
+echo '      - CSI driver for keyvault'
 echo '      - KURed'
 
 . ./init/prep-tools.sh
@@ -25,14 +25,14 @@ echo -e '\e[93mCreating resources\e[0m'
 
 echo ' '
 echo -e '\e[93mConfiguring tools for cluster\e[0m'
-. ./configuration/connection.sh
-. ./configuration/kured.sh
-. ./configuration/keda.sh
-. ./configuration/ingress-controller.sh
+. ./configuration/install-configuration.sh
 
 echo ' '
 echo -e '\e[93mInstalling applications\e[0m'
 . ./app/install-apps.sh
+
+echo ' '
+. ./monitoring/monitoring.sh
 
 echo ''
 echo  -e '\e[93mCleaning\e[0m'

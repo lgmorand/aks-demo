@@ -28,9 +28,9 @@ then
     --service-principal $spnAppId \
     --client-secret $spnPassword \
     --network-policy calico \
-    --network-plugin kubenet
-    #--node-resource-group $resourcegroupnodes
-    #--enable-addons monitoring \ bug d'une extension https://github.com/Azure/azure-cli/issues/13121
+    --network-plugin kubenet \
+    --node-resource-group $resourcegroupnodes \
+    --tags $tags
 
   echo -e "\e[92mCluster created: " $aksName  "\e[0m"
 
@@ -41,11 +41,12 @@ then
     --name appnodepool \
     --node-count 1 \
     --mode user \
-    --node-vm-size Standard_DS2_v2
+    --node-vm-size Standard_DS2_v2 \
+    --tags $tags
 
   
   echo 'Enabling monitoring'
-  az monitor log-analytics workspace create -g $resourceGroup -n $aksLogWorkspace -l $location
+  az monitor log-analytics workspace create -g $resourceGroup -n $aksLogWorkspace -l $location --tags $tags
   wksResourceId="$(az monitor log-analytics workspace show --resource-group $resourceGroup --workspace-name $aksLogWorkspace --query id -o tsv)"
   az aks enable-addons -a monitoring -g $resourceGroup -n $aksName --workspace-resource-id $wksResourceId
 

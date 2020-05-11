@@ -1,0 +1,7 @@
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: keyvault-azure-identity-binding
+spec:
+  azureIdentity: IDENTITY_NAME_TOKEN
+  selector: keyvault-podidentity
