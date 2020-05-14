@@ -14,7 +14,8 @@ echo -e '\e[96mnetpol app installed\e[0m'
 
 echo 'Installing monitored application'
 kubectl delete ns monitor --ignore-not-found
-# kubectl apply -f ./app/monitor
+kubectl apply -f ./app/monitor/container-azm-ms-agentconfig.yaml
+kubectl apply -f ./app/monitor
 echo -e '\e[96mmonitor app installed\e[0m'
 
 echo 'Installing keyvault application'
@@ -25,11 +26,12 @@ cp ./app/keyvault/aadpodidentitybinding-source.yaml ./app/keyvault/aadpodidentit
 sed -i "s/RESOURCE_GROUP_TOKEN/$resourceGroup/g" ./app/keyvault/keyvault.yaml
 sed -i "s/SUBSCRIPTION_ID_TOKEN/$subscriptionId/g" ./app/keyvault/keyvault.yaml
 sed -i "s/TENANT_ID_TOKEN/$tenantId/g" ./app/keyvault/keyvault.yaml
-sed -i "s/KEYVAULT_NAME_TOKEN/$knName/g" ./app/keyvault/keyvault.yaml
+sed -i "s/KEYVAULT_NAME_TOKEN/$kvName/g" ./app/keyvault/keyvault.yaml
 sed -i "s/IDENTITY_NAME_TOKEN/$identityName/g" ./app/keyvault/aadpodidentitybinding.yaml
-
 kubectl apply -f ./app/keyvault/aadpodidentitybinding.yaml
 kubectl apply -f ./app/keyvault/keyvault.yaml
+rm -f ./app/keyvault/keyvault.yaml
+rm -f ./app/keyvault/aadpodidentitybinding.yaml
 echo -e '\e[96mKeyVault app installed\e[0m'
 
 echo 'Installing event application'

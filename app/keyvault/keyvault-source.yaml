@@ -6,13 +6,12 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: keyvault-app
+  name: keyvault-app-deploy
   namespace: keyvault
   labels:
-    aadpodidbinding: keyvault-podidentity
-    app: keyvault-app
+    app: keyvault-app-deploy
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: keyvault-app
@@ -20,12 +19,19 @@ spec:
     metadata:
       labels:
         app: keyvault-app
+        aadpodidbinding: "keyvault-podidentity"
     spec:
       containers:
       - name: keyvault-app
         image: paulbouwer/hello-kubernetes:1.8
         ports:
         - containerPort: 8080
+        env:
+        - name: MY_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: kv-secret
+              key: my-secret
         volumeMounts:
         - name: secrets-store-inline
           mountPath: "/mnt/secrets-store"
@@ -46,14 +52,19 @@ spec:
   provider: azure                   # accepted provider options: azure or vault
   parameters:
     usePodIdentity: "true"         # [OPTIONAL for Azure] if not provided, will default to "false"
-    useVMManagedIdentity: "false"   # [OPTIONAL available for version > 0.0.4] if not provided, will default to "false"
-    userAssignedIdentityID: "client_id"  # [OPTIONAL available for version > 0.0.4] use the client id to specify which user assigned managed identity to use. If using a user assigned identity as the VM's managed identity, then specify the identity's client id. If empty, then defaults to use the system assigned identity on the VM
-    keyvaultName: "KEYVAULT_NAME_TOKEN"          # the name of the KeyVault
+     keyvaultName: "KEYVAULT_NAME_TOKEN"          # the name of the KeyVault
     objects:  |
       array:
         - |
           objectName: my-secret
           objectType: secret
+          objectAlias: secretalias
     resourceGroup: "RESOURCE_GROUP_TOKEN"            # [REQUIRED for version < 0.0.4] the resource group of the KeyVault
     subscriptionId: "SUBSCRIPTION_ID_TOKEN"         # [REQUIRED for version < 0.0.4] the subscription ID of the KeyVault
     tenantId: "TENANT_ID_TOKEN"                 # the tenant ID of the KeyVault
+  secretObjects:                                 # [OPTIONAL] SecretObject defines the desired state of synced K8s secret objects
+  - secretName: kv-secret
+    type: Opaque
+    data: 
+    - objectName: secretalias                    # name of the mounted content to sync. this could be the object name or object alias 
+      key: my-secret

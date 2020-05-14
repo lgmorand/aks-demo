@@ -1,21 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitor
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-to-monitor
+  name: demo-app-prometheus
   namespace: monitor
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: my-app-to-monitor
+      app: demo-app-prometheus
   template:
     metadata:
       labels:
-        app: my-app-to-monitor
+        app: demo-app-prometheus
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "80"
+        description: "Endpoint to test API is /weatherforecast"
     spec:
       containers:
-      - name: my-app-to-monitor
-        image: fabxc/instrumented_app
+      - name: demo-app-prometheus
+        image: lgmorand/demoappprometheus:1.0
         ports:
-        - name: web
-          containerPort: 8080
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app-prometheus-svc
+  namespace: monitor
+  annotations:
+    description: "Endpoint to test API is /weatherforecast"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: demo-app-prometheus
