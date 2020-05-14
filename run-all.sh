@@ -28,6 +28,7 @@ echo -e '\e[93mCreating resources\e[0m'
 . ./creation/create-rg.sh
 . ./creation/create-acr.sh
 . ./creation/create-aks.sh
+. ./creation/create-kv.sh
 
 echo ' '
 echo -e '\e[93mConfiguring tools for cluster\e[0m'

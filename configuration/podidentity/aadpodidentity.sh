@@ -1,8 +1,5 @@
 echo 'Enabling pod identity'
 
-# create a KV
-az keyvault create --name $kvName --resource-group $resourceGroup --sku standard --location $location --enable-soft-delete false
-
 # install pod identity components
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 #running twice just in case
