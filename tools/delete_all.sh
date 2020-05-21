@@ -1,4 +1,4 @@
-. variables.sh
+. ../variables.sh
 
 echo -e "\e[95mDo you want to delete the cluster and all related components ? [y]es or [n]o\e[0m"
 

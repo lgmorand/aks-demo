@@ -15,8 +15,9 @@ echo '   - showing keda'
 echo '   - keyvault with CSI driver'
 echo '   - network policy'
 echo '   - prometheus monitorin'
+. ./tools/functions.sh
 
-
+deleteFile test.txt
 . ./init/prep-tools.sh
 
 echo ' '
@@ -36,11 +37,11 @@ echo -e '\e[93mConfiguring tools for cluster\e[0m'
 
 echo ' '
 echo -e '\e[93mInstalling applications\e[0m'
-. ./app/_install-apps.sh
+ . ./app/_install-apps.sh
 
 echo ' '
-. ./monitoring/monitoring.sh
+ . ./monitoring/monitoring.sh
 
 echo ''
 echo  -e '\e[93mCleaning\e[0m'
-. ./clean/clean.sh
+ . ./clean/clean.sh

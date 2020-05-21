@@ -1,3 +1,6 @@
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+
 aciinstallation="$(az provider list --query "[?contains(namespace,'Microsoft.ContainerInstance')].{State:registrationState}" -o tsv)"
 
 if [[ "$aciinstallation" != "Registered" ]]
@@ -12,7 +15,7 @@ read answerCreateCluster
 if [[ "$answerCreateCluster" == "y" ]]
 then 
 
- . ./creation/create-spn.sh
+ . $DIR/create-spn.sh
 
   echo 'AKS cluster creation...'
   az aks create \
@@ -30,7 +33,7 @@ then
     --network-policy calico \
     --network-plugin kubenet \
     --node-resource-group $resourceGroupNodes \
-    --kubernetes-version 1.16.7 \
+    --kubernetes-version $aksVersion \
     --tags $tags
 
   echo -e "\e[92mCluster created: " $aksName  "\e[0m"

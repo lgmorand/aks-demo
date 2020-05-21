@@ -3,5 +3,5 @@ kind: AzureIdentityBinding
 metadata:
   name: keyvault-azure-identity-binding
 spec:
-  azureIdentity: IDENTITY_NAME_TOKEN
+  azureIdentity: $identityName
   selector: keyvault-podidentity
